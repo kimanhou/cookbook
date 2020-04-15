@@ -1,5 +1,5 @@
 import {createConnection} from "typeorm";
-import Note from "../../common/model/Note";
+import Recipe from "../../common/model/Recipe";
 
 const databaseConnectionGetter = createConnection({
     type: "mysql",
@@ -7,7 +7,7 @@ const databaseConnectionGetter = createConnection({
     port: 3306,
     username: "root",
     password: "password",
-    database: "notes",
-    entities: [Note]
+    database: "cookbook",
+    entities: [Recipe]
 });
 export default databaseConnectionGetter;

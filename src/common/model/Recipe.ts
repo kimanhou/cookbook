@@ -4,7 +4,7 @@ import JsonDeserializationHelper from './deserialization/JsonDeserializationHelp
 import { FieldType } from './deserialization/FieldType';
 
 @Entity()
-export default class Note{
+export default class Recipe{
     @PrimaryGeneratedColumn()
     id : Nullable<number>;
 
@@ -20,10 +20,10 @@ export default class Note{
         const id = JsonDeserializationHelper.assertOptionalNullField(json, "id", FieldType.NUMBER);
         const text = JsonDeserializationHelper.assertField(json, "text", FieldType.STRING);
 
-        return new Note(id, text);
+        return new Recipe(id, text);
     }
 
-    static createNote = (text : string) => {
-        return new Note(null, text);
+    static createRecipe = (text : string) => {
+        return new Recipe(null, text);
     }
 }

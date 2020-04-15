@@ -1,13 +1,13 @@
-import NoteListController from "./note/NoteListController";
-import NoteController from "./note/NoteController";
+import RecipeListController from "./recipe/RecipeListController";
+import RecipeController from "./recipe/RecipeController";
 import IController, { ConnectionControllerConstructor } from "./IController";
 import * as core from "express-serve-static-core";
 import { Connection } from "typeorm";
 
 class ControllerRegistry{
     controllerKlasses : ConnectionControllerConstructor<IController>[] = [
-        NoteListController,
-        NoteController
+        RecipeListController,
+        RecipeController
     ]
 
     registerControllers = (app: core.Express, connection : Connection) => {

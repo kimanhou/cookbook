@@ -1,10 +1,10 @@
 import IController from "../IController";
 import { Request, Response } from "express";
 import { Connection } from "typeorm";
-import Note from "../../../common/model/Note";
+import Recipe from "../../../common/model/Recipe";
 
-export default class NoteController implements IController{
-    endpoint = "/api/notes/:id"
+export default class RecipeController implements IController{
+    endpoint = "/api/recipes/:id"
 
     private connection : Connection;
 
@@ -14,13 +14,13 @@ export default class NoteController implements IController{
     
     get = (req: Request, res: Response) => {
         const id = parseInt(req.params.id);
-        this.connection.getRepository(Note).findOne(id)
-            .then(note => res.send(note));
+        this.connection.getRepository(Recipe).findOne(id)
+            .then(recipe => res.send(recipe));
     }
 
     delete = (req: Request, res: Response) => {
         const id = parseInt(req.params.id);
-        this.connection.getRepository(Note).delete(id)
+        this.connection.getRepository(Recipe).delete(id)
             .then(() => res.send());
     }
 }

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import Note from '../../../common/model/Note';
-import NoteController from '../../business/controller/NoteController';
+import Recipe from '../../../common/model/Recipe';
+import RecipeController from '../../business/controller/RecipeController';
 
-interface INewNoteViewProps{
-    addNote : (note : Note) => void;
+interface INewRecipeViewProps{
+    addRecipe: (recipe : Recipe) => void;
 }
 
-const NewNoteView : React.FC<INewNoteViewProps> = props => {
+const NewRecipeView : React.FC<INewRecipeViewProps> = props => {
     const [text, setText] = useState("");
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setText(event.target.value);
     }
     const onClick = () => {
-        const note = Note.createNote(text);
-        NoteController.add(note)
-            .then(note => props.addNote(note))
+        const recipe = Recipe.createRecipe(text);
+        RecipeController.add(recipe)
+            .then(recipe => props.addRecipe(recipe))
             .then(() => setText(""));
     }
     return (
@@ -24,4 +24,4 @@ const NewNoteView : React.FC<INewNoteViewProps> = props => {
         </div>
     );
 }
-export default NewNoteView;
+export default NewRecipeView;
