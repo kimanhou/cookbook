@@ -4,6 +4,8 @@ import './App.scss';
 import RecipeController from './business/controller/RecipeController';
 import LoadData from './view/components/async/LoadData';
 import RecipeListView from './view/recipe/RecipeListView';
+import AppRoutes from './AppRoutes';
+import { BrowserRouter } from 'react-router-dom';
 
 const App : React.FC = props => {
   const [serverStatus, setServerStatus] = useState<ServerStatus | null>(null);
@@ -14,18 +16,15 @@ const App : React.FC = props => {
       .then(setServerStatus);
   }, [])
   return (
+    <BrowserRouter>
     <div>
-      <h1>Cookbook</h1>
       {serverStatus != null ? 
         <h2 className={`live`}>Server is live</h2> : 
         <h2 className={`down`}>Server is down</h2>
       }
-      <LoadData promise={RecipeController.getAll()}>
-        {recipes =>
-          <RecipeListView recipes={recipes}/>
-        }
-      </LoadData>
+      <AppRoutes/>
     </div>
+    </BrowserRouter>
   );
 }
 export default App;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Recipe from '../../../common/model/Recipe';
 import RecipeController from '../../business/controller/RecipeController';
+import { useHistory } from 'react-router-dom';
 
 interface IRecipeViewProps{
     recipe : Recipe;
@@ -8,13 +9,21 @@ interface IRecipeViewProps{
 }
 
 const RecipeView : React.FC<IRecipeViewProps> = props => {
+    const history = useHistory();
+
     const onDelete = () => {
         RecipeController.delete(props.recipe)
             .then(props.deleteRecipe);
     }
+
+    const openRecipe = () => {
+        if (props.recipe.id != null) {
+            history.push(`/recipes/${props.recipe.id}`);
+        }
+    }
     return (
         <div>
-            {props.recipe.text}
+            <p onDoubleClick={openRecipe}>{props.recipe.recipeName}</p>
             <button onClick={onDelete}>Delete</button>
         </div>
     )

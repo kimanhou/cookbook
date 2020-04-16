@@ -6,6 +6,12 @@ class RecipeController {
             .then(response => response.json())
             .then((resultArray : any[]) => resultArray.map(Recipe.deserialize));
     }
+
+    get = (id : number) => {
+        return fetch(`/api/recipes/${id}`)
+            .then(response => response.json())
+            .then((result : any) => Recipe.deserialize(result));
+    }
     
     add = (recipe : Recipe) => {
         return fetch("/api/recipes", {

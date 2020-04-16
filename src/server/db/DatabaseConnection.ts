@@ -1,5 +1,6 @@
 import {createConnection} from "typeorm";
 import Recipe from "../../common/model/Recipe";
+import Ingredient from "../../common/model/Ingredient";
 
 const databaseConnectionGetter = createConnection({
     type: "mysql",
@@ -8,6 +9,6 @@ const databaseConnectionGetter = createConnection({
     username: "root",
     password: "password",
     database: "cookbook",
-    entities: [Recipe]
+    entities: [Recipe, Ingredient]
 });
 export default databaseConnectionGetter;

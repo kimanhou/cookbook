@@ -9,21 +9,26 @@ export default class Recipe{
     id : Nullable<number>;
 
     @Column("text")
-    text : string;
+    recipeName : string;
 
-    constructor(id : Nullable<number>, text : string){
+    @Column("text")
+    instructions : string;
+
+    constructor(id : Nullable<number>, recipeName : string, instructions : string){
         this.id = id;
-        this.text = text;
+        this.recipeName = recipeName;
+        this.instructions = instructions;
     }
 
     static deserialize = (json : any) => {
         const id = JsonDeserializationHelper.assertOptionalNullField(json, "id", FieldType.NUMBER);
-        const text = JsonDeserializationHelper.assertField(json, "text", FieldType.STRING);
+        const recipeName = JsonDeserializationHelper.assertField(json, "recipeName", FieldType.STRING);
+        const instructions = JsonDeserializationHelper.assertField(json, "instructions", FieldType.STRING);
 
-        return new Recipe(id, text);
+        return new Recipe(id, recipeName, instructions);
     }
 
-    static createRecipe = (text : string) => {
-        return new Recipe(null, text);
+    static createRecipe = (recipeName : string, instructions : string) => {
+        return new Recipe(null, recipeName, instructions);
     }
 }

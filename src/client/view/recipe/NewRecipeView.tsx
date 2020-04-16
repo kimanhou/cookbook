@@ -7,19 +7,25 @@ interface INewRecipeViewProps{
 }
 
 const NewRecipeView : React.FC<INewRecipeViewProps> = props => {
-    const [text, setText] = useState("");
-    const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setText(event.target.value);
+    const [recipeName, setRecipeName] = useState("");
+    const [instructions, setInstructions] = useState("");
+    const onRecipeNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setRecipeName(event.target.value);
+    }
+    const onInstructionsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setInstructions(event.target.value);
     }
     const onClick = () => {
-        const recipe = Recipe.createRecipe(text);
+        const recipe = Recipe.createRecipe(recipeName, instructions);
         RecipeController.add(recipe)
             .then(recipe => props.addRecipe(recipe))
-            .then(() => setText(""));
+            .then(() => setRecipeName(""))
+            .then(() => setInstructions(""));
     }
     return (
         <div>
-            <textarea value={text} onChange={onChange}/>
+            <textarea value={recipeName} onChange={onRecipeNameChange}/>
+            <textarea value={instructions} onChange={onInstructionsChange}/>
             <button onClick={onClick}>Add</button>
         </div>
     );
