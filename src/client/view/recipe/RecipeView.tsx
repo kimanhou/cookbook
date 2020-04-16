@@ -2,6 +2,7 @@ import React from 'react';
 import Recipe from '../../../common/model/Recipe';
 import RecipeController from '../../business/controller/RecipeController';
 import { useHistory } from 'react-router-dom';
+import './RecipeView.scss';
 
 interface IRecipeViewProps{
     recipe : Recipe;
@@ -22,8 +23,8 @@ const RecipeView : React.FC<IRecipeViewProps> = props => {
         }
     }
     return (
-        <div>
-            <p onDoubleClick={openRecipe}>{props.recipe.recipeName}</p>
+        <div className={`recipe-name`}>
+            <p onClick={openRecipe}>{props.recipe.recipeName}</p>
             <button onClick={onDelete}>Delete</button>
         </div>
     )
