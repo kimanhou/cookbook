@@ -24,7 +24,7 @@ class RecipeController {
     }
 
     delete = (recipe : Recipe) => {
-        return fetch(`/api/recipes/${recipe.id}`, {
+        return fetch(`/api/recipes/${recipe.getId()}`, {
                 method : "DELETE"
             });
     }

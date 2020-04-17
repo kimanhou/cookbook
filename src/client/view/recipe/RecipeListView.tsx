@@ -18,17 +18,17 @@ const RecipeListView : React.FC<IRecipeListViewProps> = props => {
         setRecipes(recipes => [...recipes, recipe]);
     }
     const deleteRecipe = (recipe : Recipe) => {
-        setRecipes(recipes => recipes.filter(n => n.id !== recipe.id));
+        setRecipes(recipes => recipes.filter(n => n.getId() !== recipe.getId()));
     }
     const goToNewRecipePage = () => {
         history.push('/new-recipe');
     }
     return (
         <div>
-            <NewRecipeView addRecipe={addRecipe} />
+            {/* <NewRecipeView addRecipe={addRecipe} /> */}
             <button onClick={goToNewRecipePage}>Add new recipe</button>
             {recipes.map(recipe => 
-                <RecipeView key={`${recipe.id}`} recipe={recipe} deleteRecipe={() => deleteRecipe(recipe)}/>
+                <RecipeView key={`${recipe.getId()}`} recipe={recipe} deleteRecipe={() => deleteRecipe(recipe)}/>
             )}
         </div>
     )

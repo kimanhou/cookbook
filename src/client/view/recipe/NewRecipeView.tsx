@@ -16,7 +16,7 @@ const NewRecipeView : React.FC<INewRecipeViewProps> = props => {
         setInstructions(event.target.value);
     }
     const onClick = () => {
-        const recipe = Recipe.createRecipe(recipeName, instructions);
+        const recipe = Recipe.createRecipe(recipeName, instructions, []);
         RecipeController.add(recipe)
             .then(recipe => props.addRecipe(recipe))
             .then(() => setRecipeName(""))

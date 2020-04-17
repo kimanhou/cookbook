@@ -1,106 +1,132 @@
-export class FieldType<T>{
-    static STRING = new FieldType<string>();
-    static NUMBER = new FieldType<number>();
-    static BOOLEAN = new FieldType<boolean>();
-    static DATE = new FieldType<Date>();
+export type FieldHandlerType<T> = (json : any) => T;
 
+enum FieldTypeEnum{
+    STRING = "STRING",
+    NUMBER = "NUMBER",
+    BOOLEAN = "BOOLEAN",
+    DATE = "DATE",
+    OBJECT = "OBJECT",
+    ARRAY = "ARRAY",
+    ENUM = "ENUM"
 }
 
-const castToString = (value : any) => {
-    if(typeof value === 'string'){
-        return value;
+export class FieldType<IT, OT = IT>{
+    value : FieldTypeEnum;
+    handler ?: FieldHandlerType<IT>;
+
+    constructor(value : FieldTypeEnum, handler ?: FieldHandlerType<IT>){
+        this.value = value;
+        this.handler = handler;
     }
-    throw new Error(`${value} is not a string.`);
-}
 
-const castToNumber = (value : any) => {
-    if(typeof value === 'string'){
-        const floatValue = parseFloat(value);
-        if(isNaN(floatValue)){
-            throw new Error(`${value} is not a number.`)
+    assertType = (json : any) => {
+        switch(this.value){
+            case FieldTypeEnum.STRING:
+                json = this.castToString(json);
+                break;
+            case FieldTypeEnum.NUMBER:
+                json = this.castToNumber(json);
+                break;
+            case FieldTypeEnum.BOOLEAN:
+                json = this.castToBoolean(json);
+                break;
+            case FieldTypeEnum.DATE:
+                json = this.castToDate(json);
+                break;
+            case FieldTypeEnum.OBJECT:
+                json = this.castToObject(json);
+                break;
+            case FieldTypeEnum.ARRAY:
+                json = this.castToArray(json);
+                break;
+            case FieldTypeEnum.ENUM:
+                json = this.castToEnum(json);
+                break;
         }
-        return floatValue;
+        return json as OT;
     }
-    if(typeof value === 'number'){
-        return value;
-    }
-    throw new Error(`${value} is not a number.`);
-}
 
-const castToBoolean = (value : any) => {
-    if(typeof value === 'string'){
-        if(value.toLowerCase() === "true"){
-            return true;
+    private castToString = (value : any) => {
+        if(typeof value === 'string'){
+            return value;
         }
-        if(value.toLowerCase() === "false"){
-            return false;
+        throw new Error(`${value} is not a string.`);
+    }
+    
+    private castToNumber = (value : any) => {
+        if(typeof value === 'string'){
+            const floatValue = parseFloat(value);
+            if(isNaN(floatValue)){
+                throw new Error(`${value} is not a number.`)
+            }
+            return floatValue;
+        }
+        if(typeof value === 'number'){
+            return value;
+        }
+        throw new Error(`${value} is not a number.`);
+    }
+    
+    private castToBoolean = (value : any) => {
+        if(typeof value === 'string'){
+            if(value.toLowerCase() === "true"){
+                return true;
+            }
+            if(value.toLowerCase() === "false"){
+                return false;
+            }
+            throw new Error(`${value} is not a boolean.`);
+        }
+        if(typeof value === 'boolean'){
+            return value;
         }
         throw new Error(`${value} is not a boolean.`);
     }
-    if(typeof value === 'boolean'){
-        return value;
+    
+    private castToDate = (value : any) => {
+        if(typeof value === 'string'){
+            const numericDate = Date.parse(value);
+            if(isNaN(numericDate)){
+                throw new Error(`${value} is not a date.`)
+            }
+            return new Date(numericDate);
+        }
+        if(typeof value === 'object'){
+            if(value instanceof Date){
+                return value;
+            }
+        }
+        throw new Error(`${value} is not a date.`);
     }
-    throw new Error(`${value} is not a boolean.`);
-}
+    
+    private castToObject = (value : any) : IT => {
+        if(typeof value === 'object' && this.handler != null){
+            return this.handler(value);
+        }
+        throw new Error(`${value} is not an object.`);
+    }
+    
+    private castToArray = (value : any) : IT[] => {
+        if(typeof value === 'object' && this.handler != null
+            && Array.isArray(value)){
+            return value.map(x => this.handler!(x));
+        }
+        throw new Error(`${value} is not an array.`);
+    }
 
-const castToDate = (value : any) => {
-    if(typeof value === 'string'){
-        const numericDate = Date.parse(value);
-        if(isNaN(numericDate)){
-            throw new Error(`${value} is not a date.`)
+    private castToEnum = (value : any) => {
+        if(typeof value === 'string'
+            && this.handler != null){
+            return this.handler(value);
         }
-        return new Date(numericDate);
+        throw new Error(`${value} is not a string.`);
     }
-    if(typeof value === 'object'){
-        if(value instanceof Date){
-            return value;
-        }
-    }
-    throw new Error(`${value} is not a date.`);
-}
 
-const castToObject = (value : any, throwOnString ?: boolean) : any => {
-    if(typeof value === 'string'){
-        if(throwOnString === true){
-            throw new Error(`${value} is not an object.`);
-        }
-        return castToObject(JSON.parse(value), true);
-    }
-    if(typeof value === 'object'){
-        return value;
-    }
-    throw new Error(`${value} is not an object.`);
-}
-
-const castToArray = (value : any, throwOnString ?: boolean) : any[] => {
-    if(typeof value === 'string'){
-        if(throwOnString === true){
-            throw new Error(`${value} is not an array.`);
-        }
-        return castToArray(JSON.parse(value), true);
-    }
-    if(typeof value === 'object'){
-        if(Array.isArray(value)){
-            return value;
-        }
-    }
-    throw new Error(`${value} is not an array.`);
-}
-
-export const assertType = <T> (value : any, type : FieldType<T>) => {
-    switch(type){
-        case FieldType.STRING:
-            value = castToString(value);
-            break;
-        case FieldType.NUMBER:
-            value = castToNumber(value);
-            break;
-        case FieldType.BOOLEAN:
-            value = castToBoolean(value);
-            break;
-        case FieldType.DATE:
-            value = castToDate(value);
-            break;
-    }
-    return value as T;
+    static STRING = new FieldType<string>(FieldTypeEnum.STRING);
+    static NUMBER = new FieldType<number>(FieldTypeEnum.NUMBER);
+    static BOOLEAN = new FieldType<boolean>(FieldTypeEnum.BOOLEAN);
+    static DATE = new FieldType<Date>(FieldTypeEnum.DATE);
+    static OBJECT = <T> (handler : FieldHandlerType<T>) => new FieldType<T>(FieldTypeEnum.OBJECT, handler);
+    static ARRAY = <T> (handler : FieldHandlerType<T>) => new FieldType<T, T[]>(FieldTypeEnum.ARRAY, handler);
+    static ENUM = <T> (handler : FieldHandlerType<T>) => new FieldType<T>(FieldTypeEnum.ENUM, handler);
 }

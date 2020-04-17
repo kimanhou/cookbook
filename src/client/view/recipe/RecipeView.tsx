@@ -18,13 +18,13 @@ const RecipeView : React.FC<IRecipeViewProps> = props => {
     }
 
     const openRecipe = () => {
-        if (props.recipe.id != null) {
-            history.push(`/recipes/${props.recipe.id}`);
+        if (props.recipe.getId() != null) {
+            history.push(`/recipes/${props.recipe.getId()}`);
         }
     }
     return (
         <div className={`recipe-name`}>
-            <p onClick={openRecipe}>{props.recipe.recipeName}</p>
+            <p onClick={openRecipe}>{props.recipe.getRecipeName()}</p>
             <button onClick={onDelete}>Delete</button>
         </div>
     )

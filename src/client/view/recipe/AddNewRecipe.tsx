@@ -14,7 +14,7 @@ const AddNewRecipe : React.FC = props => {
     }
 
     const createRecipe = () => {
-        const recipe = Recipe.createRecipe(name, instructions);
+        const recipe = Recipe.createRecipe(name, instructions, []);
         RecipeController.add(recipe)
             .then(() => setName(""))
             .then(() => setInstructions(""));

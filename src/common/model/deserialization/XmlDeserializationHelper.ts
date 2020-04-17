@@ -1,4 +1,4 @@
-import { assertType, FieldType } from "./FieldType";
+import { FieldType } from "./FieldType";
 
 class XmlDeserializationHelper{
     assertField = <T> (xml : Element, field : string, type : FieldType<T>) => {
@@ -7,7 +7,7 @@ class XmlDeserializationHelper{
             throw new Error(`Field ${field} did not exist.`);
         }
         const rawValue = elements[0].textContent;
-        const value = assertType(rawValue, type);
+        const value = type.assertType({ value: rawValue, type });
         return value;
     }
 
