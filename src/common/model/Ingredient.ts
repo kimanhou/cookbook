@@ -15,17 +15,21 @@ export default class Ingredient {
     @Column("text")
     private name : string;
 
-    @Column("text")
+    @Column("double")
     private quantity : number;
+
+    @Column("text")
+    private unity : string;
 
     @ManyToOne(type => Recipe, recipe => recipe["ingredients"], {onDelete:"CASCADE"})
     private recipe ?: Recipe;
 
-    constructor(id : Nullable<number>, recipeId : Nullable<number>, name : string, quantity : number) {
+    constructor(id : Nullable<number>, recipeId : Nullable<number>, name : string, quantity : number, unity : string) {
         this.id = id;
         this.recipeId = recipeId;
         this.name = name;
         this.quantity = quantity;
+        this.unity = unity;
     }
 
     static deserialize = (json : any) => {
@@ -33,18 +37,20 @@ export default class Ingredient {
         const recipeId = JsonDeserializationHelper.assertOptionalNullField(json, "recipeId", FieldType.NUMBER);
         const name = JsonDeserializationHelper.assertField(json, "name", FieldType.STRING);
         const quantity = JsonDeserializationHelper.assertField(json, "quantity", FieldType.NUMBER);
+        const unity = JsonDeserializationHelper.assertField(json, "unity", FieldType.STRING);
 
-        return new Ingredient(id, recipeId, name, quantity);
+        return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
-    static createRecipe = (id : Nullable<number>, recipeId : number, name : string, quantity : number) => {
-        return new Ingredient(id, recipeId, name, quantity);
+    static createRecipe = (id : Nullable<number>, recipeId : number, name : string, quantity : number, unity : string) => {
+        return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
-    toString = () => `${this.quantity} ${this.name}`;
+    toString = () => `${this.quantity}${this.unity} ${this.name}`;
 
     getId = () => this.id
     getRecipeId = () => this.recipeId;
     getName = () => this.name;
     getQuantity = () => this.quantity;
+    getUnity = () => this.unity;
 }
