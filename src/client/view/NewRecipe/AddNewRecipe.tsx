@@ -4,6 +4,8 @@ import RecipeController from '../../business/controller/RecipeController';
 import IngredientController from '../../business/controller/IngredientController';
 import Ingredient from '../../../common/model/Ingredient';
 import NewIngredient from './NewIngredient';
+import NewInstruction from './NewInstruction';
+import Instruction from '../../../common/model/Instruction';
 
 const AddNewRecipe : React.FC = props => {
     const [name, setName] = useState<string>("");
@@ -11,19 +13,17 @@ const AddNewRecipe : React.FC = props => {
         setName(event.target.value);
     }
 
-    const [instructions, setInstructions] = useState<string>("");
-    const onInstructionsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setInstructions(event.target.value);
-    }
+    const emptyInstruction = new Instruction(null, null, 1, "");
+    const [instruction, setInstruction] = useState<Instruction>(emptyInstruction);
 
-    const emptyIngredient = new Ingredient(null, null, "", -1, "")
+    const emptyIngredient = new Ingredient(null, null, "", -1, "");
     const [ingredient, setIngredient] = useState<Ingredient>(emptyIngredient);
 
     const createRecipe = () => {
-        const recipe = Recipe.createRecipe(name, [], [ingredient]);
+        const recipe = Recipe.createRecipe(name, [instruction], [ingredient]);
         RecipeController.add(recipe)
             .then(() => setName(""))
-            .then(() => setInstructions(""))
+            .then(() => setInstruction(emptyInstruction))
             .then(() => setIngredient(emptyIngredient));
     }
 
@@ -31,9 +31,8 @@ const AddNewRecipe : React.FC = props => {
         <div className={`add-new-recipe`}>
             <label>Name</label>
             <input value={name} onChange={onNameChange}></input>
-            <NewIngredient ingredient={ingredient} setIngredient={setIngredient}/>
-            <label>Instructions</label>
-            <textarea value={instructions} onChange={onInstructionsChange}></textarea>
+            <NewIngredient ingredient={ingredient} />
+            <NewInstruction instruction={instruction} />
             <button onClick={createRecipe}>Create</button>
         </div>
     );

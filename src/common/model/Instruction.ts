@@ -47,4 +47,7 @@ export default class Instruction {
     getRecipeId = () => this.recipeId;
     getStepNumber = () => this.stepNumber;
     getText = () => this.text;
+
+    setStepNumber = (stepNumber : number) => this.stepNumber = stepNumber;
+    setText = (text : string) => this.text = text;
 }

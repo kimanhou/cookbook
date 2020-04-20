@@ -3,7 +3,6 @@ import Ingredient from '../../../common/model/Ingredient';
 
 interface INewIngredientProps {
     ingredient : Ingredient;
-    setIngredient : (ingredient : Ingredient) => void;
 }
 
 const NewIngredient : React.FC<INewIngredientProps> = props => {
