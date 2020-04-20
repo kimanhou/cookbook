@@ -6,7 +6,7 @@ import LoadData from './view/components/async/LoadData';
 import RecipeListView from './view/recipe/RecipeListView';
 import RecipePage from './view/recipe/RecipePage';
 import NewRecipeView from './view/recipe/NewRecipeView';
-import AddNewRecipe from './view/recipe/AddNewRecipe';
+import AddNewRecipe from './view/NewRecipe/AddNewRecipe';
 
 const AppRoutes : React.FC = props => {
     const history = useHistory();

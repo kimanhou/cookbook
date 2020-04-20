@@ -20,7 +20,7 @@ class RecipeController {
                 headers: {'Content-Type' : 'application/json'}
             })
             .then(response => response.json())
-            .then(Recipe.deserialize);
+            .then(Recipe.deserialize));
     }
 
     delete = (recipe : Recipe) => {

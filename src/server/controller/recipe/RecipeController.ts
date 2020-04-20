@@ -1,7 +1,7 @@
-import IController from "../IController";
 import { Request, Response } from "express";
 import { Connection } from "typeorm";
 import Recipe from "../../../common/model/Recipe";
+import IController from "../IController";
 
 export default class RecipeController implements IController{
     endpoint = "/api/recipes/:id"

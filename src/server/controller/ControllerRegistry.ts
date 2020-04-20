@@ -3,11 +3,13 @@ import RecipeController from "./recipe/RecipeController";
 import IController, { ConnectionControllerConstructor } from "./IController";
 import * as core from "express-serve-static-core";
 import { Connection } from "typeorm";
+import IngredientController from "./recipe/IngredientController";
 
 class ControllerRegistry{
     controllerKlasses : ConnectionControllerConstructor<IController>[] = [
         RecipeListController,
-        RecipeController
+        RecipeController,
+        IngredientController
     ]
 
     registerControllers = (app: core.Express, connection : Connection) => {

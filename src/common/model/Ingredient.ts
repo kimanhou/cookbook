@@ -42,7 +42,7 @@ export default class Ingredient {
         return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
-    static createRecipe = (id : Nullable<number>, recipeId : number, name : string, quantity : number, unity : string) => {
+    static createIngredient = (id : Nullable<number>, recipeId : number, name : string, quantity : number, unity : string) => {
         return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
@@ -53,4 +53,9 @@ export default class Ingredient {
     getName = () => this.name;
     getQuantity = () => this.quantity;
     getUnity = () => this.unity;
+
+    setRecipeId = (recipeId : number) => this.recipeId = recipeId;
+    setName = (name : string) => this.name = name;
+    setQuantity = (quantity : number) => this.quantity = quantity;
+    setUnity = (unity : string) => this.unity = unity;
 }

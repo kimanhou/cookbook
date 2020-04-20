@@ -19,8 +19,9 @@ const LoadData = <T extends unknown> (props : ILoadComponentProps<T>) => {
     if(error != null){
         return (
             <div>
-                <h1>An Error Was Encountered</h1>
-                {error.message}
+                <h1>An error was encountered</h1>
+                <p>Message : {error.message}</p>
+                <p>Stack : {error.stack}</p>
             </div>
         )
     }

@@ -12,7 +12,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <h3>Ingredients</h3>
             {props.recipe.getIngredients().map(ingredient => <p>{ingredient.toString()}</p>)}
             <h3>Instructions</h3>
-            <p>{props.recipe.getInstructions()}</p>
+            {props.recipe.getInstructions().map(instruction => <p>{instruction.toString()}</p>)}
         </div>
     )
 }
