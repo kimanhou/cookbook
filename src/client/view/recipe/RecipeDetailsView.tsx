@@ -9,6 +9,9 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
+            <p>Serves {props.recipe.getNumberOfServings()}</p>
+            <p>Time {props.recipe.getTime()}</p>
+            <p>Cookware {props.recipe.getCookwareToString()}</p>
             <h3>Ingredients</h3>
             {props.recipe.getIngredients().map(ingredient => <p>{ingredient.toString()}</p>)}
             <h3>Instructions</h3>

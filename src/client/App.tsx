@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import ServerStatus from '../common/model/ServerStatus';
 import './App.scss';
-import RecipeController from './business/controller/RecipeController';
-import LoadData from './view/components/async/LoadData';
-import RecipeListView from './view/recipe/RecipeListView';
 import AppRoutes from './AppRoutes';
-import { BrowserRouter } from 'react-router-dom';
 
 const App : React.FC = props => {
   const [serverStatus, setServerStatus] = useState<ServerStatus | null>(null);

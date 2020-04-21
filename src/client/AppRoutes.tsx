@@ -3,10 +3,9 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 import './AppRoutes.scss';
 import RecipeController from './business/controller/RecipeController';
 import LoadData from './view/components/async/LoadData';
+import NewRecipe from './view/NewRecipe/NewRecipe';
 import RecipeListView from './view/recipe/RecipeListView';
 import RecipePage from './view/recipe/RecipePage';
-import NewRecipeView from './view/recipe/NewRecipeView';
-import AddNewRecipe from './view/NewRecipe/AddNewRecipe';
 
 const AppRoutes : React.FC = props => {
     const history = useHistory();
@@ -23,7 +22,7 @@ const AppRoutes : React.FC = props => {
                         <RecipePage />
                     </Route>
                     <Route path={'/new-recipe'}>
-                        <AddNewRecipe/>
+                        <NewRecipe/>
                     </Route>
                     <Route path={'/recipes'}>
                         <LoadData promise={RecipeController.getAll()}>
