@@ -48,6 +48,8 @@ export default class Instruction {
     getStepNumber = () => this.stepNumber;
     getText = () => this.text;
 
+    setId = (id : Nullable<number>) => this.id = id;
+    setRecipeId = (recipeId : Nullable<number>) => this.recipeId = recipeId;
     setStepNumber = (stepNumber : number) => this.stepNumber = stepNumber;
     setText = (text : string) => this.text = text;
 }

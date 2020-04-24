@@ -54,7 +54,8 @@ export default class Ingredient {
     getQuantity = () => this.quantity;
     getUnity = () => this.unity;
 
-    setRecipeId = (recipeId : number) => this.recipeId = recipeId;
+    setId = (id : Nullable<number>) => this.id = id;
+    setRecipeId = (recipeId : Nullable<number>) => this.recipeId = recipeId;
     setName = (name : string) => this.name = name;
     setQuantity = (quantity : number) => this.quantity = quantity;
     setUnity = (unity : string) => this.unity = unity;

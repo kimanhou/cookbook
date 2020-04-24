@@ -19,7 +19,7 @@ class RecipeController {
                 body : JSON.stringify(recipe),
                 headers: {'Content-Type' : 'application/json'}
             })
-            .then(response => response.json())
+            .then((response) => response.json())
             .then(Recipe.deserialize);
     }
 

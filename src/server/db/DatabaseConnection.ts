@@ -10,6 +10,7 @@ const databaseConnectionGetter = createConnection({
     username: "root",
     password: "password",
     database: "cookbook",
-    entities: [Recipe, Ingredient, Instruction]
+    entities: [Recipe, Ingredient, Instruction],
+    logging: true
 });
 export default databaseConnectionGetter;
