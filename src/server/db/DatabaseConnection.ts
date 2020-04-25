@@ -11,6 +11,6 @@ const databaseConnectionGetter = createConnection({
     password: "password",
     database: "cookbook",
     entities: [Recipe, Ingredient, Instruction],
-    logging: true
+    //logging: true
 });
 export default databaseConnectionGetter;

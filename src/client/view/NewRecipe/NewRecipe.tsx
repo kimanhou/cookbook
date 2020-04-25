@@ -4,7 +4,7 @@ import Instruction from '../../../common/model/Instruction';
 import Recipe from '../../../common/model/Recipe';
 import RecipeController from '../../business/controller/RecipeController';
 import NewIngredientsList from './NewIngredientsList';
-import NewInstruction from './NewInstruction';
+import NewInstructionsList from './NewInstructionsList';
 import './NewRecipe.scss';
 
 const AddNewRecipe : React.FC = props => {
@@ -13,11 +13,9 @@ const AddNewRecipe : React.FC = props => {
         setName(event.target.value);
     }
 
-    const [serves, setServes] = useState<number | undefined>(undefined);
+    const [serves, setServes] = useState<string>("");
     const onServesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!isNaN(parseFloat(event.target.value))) {
-            setServes(parseFloat(event.target.value));
-        }
+        setServes(event.target.value);
     }
 
     const [time, setTime] = useState<string>("");
@@ -25,22 +23,19 @@ const AddNewRecipe : React.FC = props => {
         setTime(event.target.value);
     }
 
-    const emptyInstruction = new Instruction(null, null, 1, "");
-    const [instruction, setInstruction] = useState<Instruction>(emptyInstruction);
-
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [instructions, setInstructions] = useState<Instruction[]>([]);
 
     const createRecipe = () => {
-        const numberOfServings = serves != null ? serves : 0;
+        const numberOfServings = !isNaN(parseInt(serves)) ? parseInt(serves) : 0;
         const cookware = ["poele", "fouet", "spatule"];
-        const instructions = [instruction, new Instruction(null, null, 2, "Faire fondre le beurre avec le chocolat")];
         const recipe = Recipe.createRecipe(name, numberOfServings, time, instructions, ingredients, cookware);
         RecipeController.add(recipe)
             .then(() => setName(""))
-            .then(() => setInstruction(emptyInstruction))
+            .then(() => setInstructions([]))
             .then(() => setIngredients([]))
             .then(() => setTime(""))
-            .then(() => setServes(undefined));
+            .then(() => setServes(""));
     }
 
     return (
@@ -58,7 +53,7 @@ const AddNewRecipe : React.FC = props => {
                 <input value={time} onChange={onTimeChange}></input>
             </div>
             <NewIngredientsList ingredients={ingredients} setIngredients={setIngredients}/>
-            <NewInstruction instruction={instruction} />
+            <NewInstructionsList instructions={instructions} setInstructions={setInstructions} />
             <button onClick={createRecipe}>Create</button>
         </div>
     );
