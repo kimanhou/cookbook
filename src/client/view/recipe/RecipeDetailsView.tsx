@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Recipe from '../../../common/model/Recipe';
 import EditableString from '../components/EditableString';
 import RecipeController from '../../business/controller/RecipeController';
+import EditableInstruction from '../components/EditableInstruction';
+import Instruction from '../../../common/model/Instruction';
+import InstructionController from '../../business/controller/InstructionController';
 
 interface IRecipeDetailsViewProps {
     recipe : Recipe;
@@ -35,6 +38,16 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         });
     }
 
+    const [instructions, setInstructions] = useState<Instruction[]>(props.recipe.getInstructions());
+    const setInstructionText = (instruction : Instruction) => {
+        InstructionController.add(instruction);
+        setInstructions(instructions => {
+            let clone = instructions.filter(t => t.getId() != instruction.getId());
+            clone = [...clone, instruction];
+            return clone;
+        });
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -43,11 +56,11 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <h3>Time</h3> 
             <EditableString text={time} setText={setTimeText} />
             <h3>Cookware</h3> 
-            {props.recipe.getCookware().map((cookware, index) => <EditableString text={cookware} setText={text => setCookwareText(text, index)}/>)}
+            {cookware.map((cookware, index) => <EditableString text={cookware} setText={text => setCookwareText(text, index)}/>)}
             <h3>Ingredients</h3>
             {props.recipe.getIngredients().map(ingredient => <p>{ingredient.toString()}</p>)}
             <h3>Instructions</h3>
-            {props.recipe.getInstructions().map(instruction => <p>{instruction.toString()}</p>)}
+            {instructions.sort((a, b) => a.getStepNumber() - b.getStepNumber()).map(instruction => <EditableInstruction instruction={instruction} setInstruction={setInstructionText}/>)}
         </div>
     )
 }
