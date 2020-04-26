@@ -6,6 +6,7 @@ import RecipeController from '../../business/controller/RecipeController';
 import NewIngredientsList from './NewIngredientsList';
 import NewInstructionsList from './NewInstructionsList';
 import './NewRecipe.scss';
+import NewCookwareList from './NewCookwareList';
 
 const AddNewRecipe : React.FC = props => {
     const [name, setName] = useState<string>("");
@@ -25,15 +26,16 @@ const AddNewRecipe : React.FC = props => {
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [instructions, setInstructions] = useState<Instruction[]>([]);
+    const [cookware, setCookware] = useState<string[]>([]);
 
     const createRecipe = () => {
         const numberOfServings = !isNaN(parseInt(serves)) ? parseInt(serves) : 0;
-        const cookware = ["poele", "fouet", "spatule"];
         const recipe = Recipe.createRecipe(name, numberOfServings, time, instructions, ingredients, cookware);
         RecipeController.add(recipe)
             .then(() => setName(""))
             .then(() => setInstructions([]))
             .then(() => setIngredients([]))
+            .then(() => setCookware([]))
             .then(() => setTime(""))
             .then(() => setServes(""));
     }
@@ -54,6 +56,7 @@ const AddNewRecipe : React.FC = props => {
             </div>
             <NewIngredientsList ingredients={ingredients} setIngredients={setIngredients}/>
             <NewInstructionsList instructions={instructions} setInstructions={setInstructions} />
+            <NewCookwareList cookware={cookware} setCookware={setCookware} />
             <button onClick={createRecipe}>Create</button>
         </div>
     );
