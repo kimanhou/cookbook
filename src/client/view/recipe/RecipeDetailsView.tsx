@@ -8,18 +8,27 @@ interface IRecipeDetailsViewProps {
 }
 
 const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
-    const [time, setTime] = useState(props.recipe.getTime());
+    const [time, setTime] = useState<string>(props.recipe.getTime());
     const setTimeText = (text : string) => {
         props.recipe.setTime(text);
         RecipeController.add(props.recipe);
         setTime(text);
     }
 
+    const [serves, setServes] = useState<string>(props.recipe.getNumberOfServings().toString());
+    const setServesText = (text : string) => {
+        if (!isNaN(parseInt(text))) {
+            props.recipe.setNumberOfServings(parseInt(text));
+            RecipeController.add(props.recipe);
+            setServes(text);
+        }
+    }
 
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
-            <p>Serves {props.recipe.getNumberOfServings()}</p>
+            <h3>Serves</h3> 
+            <EditableString text={serves} setText={setServesText} />
             <h3>Time</h3> 
             <EditableString text={time} setText={setTimeText} />
             <h3>Cookware</h3> 
