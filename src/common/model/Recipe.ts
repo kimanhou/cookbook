@@ -67,4 +67,5 @@ export default class Recipe{
 
     setTime = (time : string) => this.time = time;
     setNumberOfServings = (numberOfServings : number) => this.numberOfServings = numberOfServings;
+    setCookwareAt = (cookware : string, index : number) => this.cookware[index] = cookware;
 }

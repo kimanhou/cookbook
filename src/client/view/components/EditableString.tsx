@@ -23,7 +23,7 @@ const EditableString : React.FC<IEditableStringProps> = props => {
     if (isEditable) {
         return (<input value={inputText} onKeyPress={onKeyPress} onChange={onChange}></input>);
     }
-    return (<span onDoubleClick={() => setIsEditable(isEditable => !isEditable)}>{props.text}</span>);
+    return (<p onDoubleClick={() => setIsEditable(isEditable => !isEditable)}>{props.text}</p>);
 }
 
 export default EditableString;

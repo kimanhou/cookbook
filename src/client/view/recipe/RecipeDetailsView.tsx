@@ -24,6 +24,17 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         }
     }
 
+    const [cookware, setCookware] = useState<string[]>(props.recipe.getCookware());
+    const setCookwareText = (text : string, index : number) => {
+        props.recipe.setCookwareAt(text, index);
+        RecipeController.add(props.recipe);
+        setCookware(cookwares => {
+            const clone = cookwares.slice();
+            clone[index] = text;
+            return clone;
+        });
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -32,7 +43,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <h3>Time</h3> 
             <EditableString text={time} setText={setTimeText} />
             <h3>Cookware</h3> 
-            <p>{props.recipe.getCookwareToString()}</p>
+            {props.recipe.getCookware().map((cookware, index) => <EditableString text={cookware} setText={text => setCookwareText(text, index)}/>)}
             <h3>Ingredients</h3>
             {props.recipe.getIngredients().map(ingredient => <p>{ingredient.toString()}</p>)}
             <h3>Instructions</h3>
