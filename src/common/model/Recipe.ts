@@ -64,4 +64,7 @@ export default class Recipe{
     getIngredients = () => this.ingredients;
     getCookware = () => this.cookware;
     getCookwareToString = () => this.cookware.join(', ');
+
+    setTime = (time : string) => this.time = time;
+    setNumberOfServings = (numberOfServings : number) => this.numberOfServings = numberOfServings;
 }
