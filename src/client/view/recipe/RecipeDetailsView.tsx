@@ -8,6 +8,7 @@ import InstructionController from '../../business/controller/InstructionControll
 import Ingredient from '../../../common/model/Ingredient';
 import IngredientController from '../../business/controller/IngredientController';
 import EditableIngredient from '../components/Editables/EditableIngredient';
+import AddableCookware from '../components/Addables/AddableCookware';
 
 interface IRecipeDetailsViewProps {
     recipe : Recipe;
@@ -81,6 +82,15 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         setInstructions(instructions => instructions.filter(t => t.getId() != instruction.getId()));
     }
 
+    const [newCookware, setNewCookware] = useState<string>("");
+    const addCookware = (cookware : string) => {
+        const newCookwares = [... props.recipe.getCookware(), cookware];
+        props.recipe.setCookware(newCookwares);
+        RecipeController.add(props.recipe);
+        setCookware(cookwares => [... cookwares, cookware]);
+        setNewCookware("");
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -88,7 +98,8 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <EditableString text={serves} setText={setServesText} />
             <h3>Time</h3> 
             <EditableString text={time} setText={setTimeText} />
-            <h3>Cookware</h3> 
+            <h3>Cookware</h3>
+            <AddableCookware cookware={newCookware} addCookware={addCookware}/> 
             {cookware.map((cookware, index) => 
                 <div>
                     <EditableString text={cookware} setText={text => setCookwareText(text, index)}/> 
