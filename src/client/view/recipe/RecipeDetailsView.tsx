@@ -61,6 +61,16 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         });
     }
 
+    const deleteCookware = (index : number) => {
+        const clone = props.recipe.getCookware().filter((t, myIndex) => myIndex != index);
+        props.recipe.setCookware(clone);
+        RecipeController.add(props.recipe);
+        setCookware(cookwares => {
+            const clone = cookwares.filter((t, myIndex) => myIndex != index);
+            return clone;
+        });
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -69,7 +79,11 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <h3>Time</h3> 
             <EditableString text={time} setText={setTimeText} />
             <h3>Cookware</h3> 
-            {cookware.map((cookware, index) => <EditableString text={cookware} setText={text => setCookwareText(text, index)}/>)}
+            {cookware.map((cookware, index) => 
+                <div>
+                    <EditableString text={cookware} setText={text => setCookwareText(text, index)}/> 
+                    <button onClick={t => deleteCookware(index)}>X</button>
+                </div>)}
             <h3>Ingredients</h3>
             {ingredients.map(ingredient => <EditableIngredient ingredient={ingredient} setIngredient={setIngredientText}/>)}
             <h3>Instructions</h3>
