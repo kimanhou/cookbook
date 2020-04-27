@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Recipe from '../../../common/model/Recipe';
-import EditableString from '../components/EditableString';
+import EditableString from '../components/Editables/EditableString';
 import RecipeController from '../../business/controller/RecipeController';
-import EditableInstruction from '../components/EditableInstruction';
+import EditableInstruction from '../components/Editables/EditableInstruction';
 import Instruction from '../../../common/model/Instruction';
 import InstructionController from '../../business/controller/InstructionController';
+import Ingredient from '../../../common/model/Ingredient';
+import IngredientController from '../../business/controller/IngredientController';
+import EditableIngredient from '../components/Editables/EditableIngredient';
 
 interface IRecipeDetailsViewProps {
     recipe : Recipe;
@@ -48,6 +51,16 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         });
     }
 
+    const [ingredients, setIngredients] = useState<Ingredient[]>(props.recipe.getIngredients());
+    const setIngredientText = (ingredient : Ingredient) => {
+        IngredientController.add(ingredient);
+        setIngredients(ingredients => {
+            let clone = ingredients.filter(t => t.getId() != ingredient.getId());
+            clone = [...clone, ingredient];
+            return clone;
+        });
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -58,7 +71,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
             <h3>Cookware</h3> 
             {cookware.map((cookware, index) => <EditableString text={cookware} setText={text => setCookwareText(text, index)}/>)}
             <h3>Ingredients</h3>
-            {props.recipe.getIngredients().map(ingredient => <p>{ingredient.toString()}</p>)}
+            {ingredients.map(ingredient => <EditableIngredient ingredient={ingredient} setIngredient={setIngredientText}/>)}
             <h3>Instructions</h3>
             {instructions.sort((a, b) => a.getStepNumber() - b.getStepNumber()).map(instruction => <EditableInstruction instruction={instruction} setInstruction={setInstructionText}/>)}
         </div>

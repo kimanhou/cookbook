@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Instruction from '../../../common/model/Instruction';
+import Instruction from '../../../../common/model/Instruction';
 
 interface IEditableInstructionProps {
     instruction : Instruction;
