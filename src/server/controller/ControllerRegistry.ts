@@ -4,6 +4,7 @@ import IController, { ConnectionControllerConstructor } from "./IController";
 import IngredientController from "./recipe/IngredientController";
 import IngredientsListController from "./recipe/IngredientsListController";
 import InstructionController from "./recipe/InstructionController";
+import InstructionsListController from "./recipe/InstructionsListController";
 import RecipeController from "./recipe/RecipeController";
 import RecipeListController from "./recipe/RecipeListController";
 
@@ -13,6 +14,7 @@ class ControllerRegistry{
         RecipeController,
         IngredientsListController,
         IngredientController,
+        InstructionsListController,
         InstructionController
     ]
 
