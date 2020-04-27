@@ -1,15 +1,17 @@
-import RecipeListController from "./recipe/RecipeListController";
-import RecipeController from "./recipe/RecipeController";
-import IController, { ConnectionControllerConstructor } from "./IController";
 import * as core from "express-serve-static-core";
 import { Connection } from "typeorm";
+import IController, { ConnectionControllerConstructor } from "./IController";
 import IngredientController from "./recipe/IngredientController";
+import IngredientsListController from "./recipe/IngredientsListController";
 import InstructionController from "./recipe/InstructionController";
+import RecipeController from "./recipe/RecipeController";
+import RecipeListController from "./recipe/RecipeListController";
 
 class ControllerRegistry{
     controllerKlasses : ConnectionControllerConstructor<IController>[] = [
         RecipeListController,
         RecipeController,
+        IngredientsListController,
         IngredientController,
         InstructionController
     ]

@@ -71,6 +71,11 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         });
     }
 
+    const deleteIngredient = (ingredient : Ingredient) => {
+        IngredientController.delete(ingredient);
+        setIngredients(ingredients => ingredients.filter(t => t.getId() != ingredient.getId()));
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -85,7 +90,11 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
                     <button onClick={t => deleteCookware(index)}>X</button>
                 </div>)}
             <h3>Ingredients</h3>
-            {ingredients.map(ingredient => <EditableIngredient ingredient={ingredient} setIngredient={setIngredientText}/>)}
+            {ingredients.map(ingredient => 
+                <div>
+                    <EditableIngredient ingredient={ingredient} setIngredient={setIngredientText}/>
+                    <button onClick={t => deleteIngredient(ingredient)}>X</button>
+                </div>)}
             <h3>Instructions</h3>
             {instructions.sort((a, b) => a.getStepNumber() - b.getStepNumber()).map(instruction => <EditableInstruction instruction={instruction} setInstruction={setInstructionText}/>)}
         </div>
