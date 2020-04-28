@@ -76,6 +76,11 @@ export default class Recipe{
         this.ingredients = [... this.ingredients, ingredient];
     }
 
+    addInstruction = (instruction : Instruction) => {
+        instruction.setRecipeId(this.id);
+        this.instructions = [... this.instructions, instruction];
+    }
+
     sync = (data : Recipe) => {
         this.id = data.id;
         this.recipeName = data.recipeName;

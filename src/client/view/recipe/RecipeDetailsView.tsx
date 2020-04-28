@@ -10,6 +10,7 @@ import AddableIngredient from '../components/Addables/AddableIngredient';
 import EditableIngredient from '../components/Editables/EditableIngredient';
 import EditableInstruction from '../components/Editables/EditableInstruction';
 import EditableString from '../components/Editables/EditableString';
+import AddableInstruction from '../components/Addables/AddableInstruction';
 
 interface IRecipeDetailsViewProps {
     recipe : Recipe;
@@ -103,6 +104,17 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         setIngredients(ingredients => [... ingredients, ingredient]);
     }
 
+    const addInstruction = (instruction : Instruction) => {
+        props.recipe.addInstruction(instruction);
+        RecipeController.add(props.recipe)
+            .then(promisedRecipe => {
+                const oldInstruction = props.recipe.getInstructions()[props.recipe.getInstructions().length - 1];
+                const newInstruction= promisedRecipe.getInstructions()[promisedRecipe.getInstructions().length - 1];
+                oldInstruction.sync(newInstruction);
+            });
+        setInstructions(instructions => [... instructions, instruction]);
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -125,6 +137,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
                     <button onClick={t => deleteIngredient(ingredient)}>X</button>
                 </div>)}
             <h3>Instructions</h3>
+            <AddableInstruction addInstruction={addInstruction}/>
             {instructions.sort((a, b) => a.getStepNumber() - b.getStepNumber()).map(instruction => 
                 <div>
                     <EditableInstruction instruction={instruction} setInstruction={setInstructionText}/>

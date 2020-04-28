@@ -52,4 +52,11 @@ export default class Instruction {
     setRecipeId = (recipeId : Nullable<number>) => this.recipeId = recipeId;
     setStepNumber = (stepNumber : number) => this.stepNumber = stepNumber;
     setText = (text : string) => this.text = text;
+
+    sync = (data : Instruction) => {
+        this.id = data.id;
+        this.recipeId = data.recipeId;
+        this.text = data.text;
+        this.stepNumber = data.stepNumber;
+    }
 }
