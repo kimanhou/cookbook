@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import Recipe from '../../../common/model/Recipe';
-import EditableString from '../components/Editables/EditableString';
-import RecipeController from '../../business/controller/RecipeController';
-import EditableInstruction from '../components/Editables/EditableInstruction';
-import Instruction from '../../../common/model/Instruction';
-import InstructionController from '../../business/controller/InstructionController';
 import Ingredient from '../../../common/model/Ingredient';
+import Instruction from '../../../common/model/Instruction';
+import Recipe from '../../../common/model/Recipe';
 import IngredientController from '../../business/controller/IngredientController';
-import EditableIngredient from '../components/Editables/EditableIngredient';
+import InstructionController from '../../business/controller/InstructionController';
+import RecipeController from '../../business/controller/RecipeController';
 import AddableCookware from '../components/Addables/AddableCookware';
+import AddableIngredient from '../components/Addables/AddableIngredient';
+import EditableIngredient from '../components/Editables/EditableIngredient';
+import EditableInstruction from '../components/Editables/EditableInstruction';
+import EditableString from '../components/Editables/EditableString';
 
 interface IRecipeDetailsViewProps {
     recipe : Recipe;
@@ -91,6 +92,17 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         setNewCookware("");
     }
 
+    const addIngredient = (ingredient : Ingredient) => {
+        props.recipe.addIngredient(ingredient);
+        RecipeController.add(props.recipe)
+            .then(promisedRecipe => {
+                const oldIngredient = props.recipe.getIngredients()[props.recipe.getIngredients().length - 1];
+                const newIngredient = promisedRecipe.getIngredients()[promisedRecipe.getIngredients().length - 1];
+                oldIngredient.sync(newIngredient);
+            });
+        setIngredients(ingredients => [... ingredients, ingredient]);
+    }
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -106,6 +118,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
                     <button onClick={t => deleteCookware(index)}>X</button>
                 </div>)}
             <h3>Ingredients</h3>
+            <AddableIngredient addIngredient={addIngredient}/>
             {ingredients.map(ingredient => 
                 <div>
                     <EditableIngredient ingredient={ingredient} setIngredient={setIngredientText}/>

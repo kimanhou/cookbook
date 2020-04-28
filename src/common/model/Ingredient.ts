@@ -59,4 +59,12 @@ export default class Ingredient {
     setName = (name : string) => this.name = name;
     setQuantity = (quantity : number) => this.quantity = quantity;
     setUnity = (unity : string) => this.unity = unity;
+
+    sync = (data : Ingredient) => {
+        this.id = data.id;
+        this.recipeId = data.recipeId;
+        this.name = data.name;
+        this.quantity = data.quantity;
+        this.unity = data.unity;
+    }
 }

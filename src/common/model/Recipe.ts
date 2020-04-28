@@ -69,4 +69,17 @@ export default class Recipe{
     setNumberOfServings = (numberOfServings : number) => this.numberOfServings = numberOfServings;
     setCookwareAt = (cookware : string, index : number) => this.cookware[index] = cookware;
     setCookware = (cookwares : string[]) => this.cookware = cookwares;
+    setIngredients = (ingredients : Ingredient[]) => this.ingredients = ingredients;
+
+    addIngredient = (ingredient : Ingredient) => {
+        ingredient.setRecipeId(this.id);
+        this.ingredients = [... this.ingredients, ingredient];
+    }
+
+    sync = (data : Recipe) => {
+        this.id = data.id;
+        this.recipeName = data.recipeName;
+        this.numberOfServings = data.numberOfServings;
+        this.time = data.time;
+    }
 }
