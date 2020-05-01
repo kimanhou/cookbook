@@ -87,4 +87,9 @@ export default class Recipe{
         this.numberOfServings = data.numberOfServings;
         this.time = data.time;
     }
+    
+    updateQuantities = (newNumberOfServings : number ) => {
+        const coef = newNumberOfServings / this.numberOfServings;
+        this.ingredients.forEach(t => t.setQuantity(coef * t.getQuantity()));
+    }
 }

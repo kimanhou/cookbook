@@ -27,9 +27,12 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
     const [serves, setServes] = useState<string>(props.recipe.getNumberOfServings().toString());
     const setServesText = (text : string) => {
         if (!isNaN(parseInt(text))) {
+            props.recipe.updateQuantities(parseInt(text));
             props.recipe.setNumberOfServings(parseInt(text));
+            props.recipe.getIngredients().forEach(IngredientController.add);
             RecipeController.add(props.recipe);
             setServes(text);
+            setIngredients(props.recipe.getIngredients());
         }
     }
 
