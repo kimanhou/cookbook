@@ -10,7 +10,7 @@ const AddableIngredient : React.FC<IAddableIngredientProps> = props => {
 
     const onKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key == 'Enter' && !isNaN(parseFloat(quantity))) {
-            const newIngredient = new Ingredient(null, null, name, parseFloat(quantity), unity);
+            const newIngredient = new Ingredient(undefined, null, name, parseFloat(quantity), unity);
             props.addIngredient(newIngredient);
             setIsEditable(isEditable => !isEditable);
             setNameText("");

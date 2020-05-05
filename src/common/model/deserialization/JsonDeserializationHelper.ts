@@ -23,5 +23,10 @@ class JsonDeserializationHelper {
         const optionalValue = this.assertOptionalField(json, field, type);
         return (optionalValue != null)?(optionalValue):(null);
     }
+
+    assertOptionalUndefinedField = <IT, OT> (json : any, field : string, type : FieldType<IT, OT>) => {
+        const optionalValue = this.assertOptionalField(json, field, type);
+        return (optionalValue != undefined) ? (optionalValue) : (undefined);
+    }
 }
 export default new JsonDeserializationHelper();

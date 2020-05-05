@@ -26,7 +26,7 @@ const NewIngredient : React.FC<INewIngredientProps> = props => {
 
     const addIngredient = () => {
         if(name !== "" && quantity != null){
-            const ingredient = new Ingredient(null, null, name, quantity, unity);
+            const ingredient = new Ingredient(undefined, null, name, quantity, unity);
             props.setIngredients(ingredients => [...ingredients, ingredient]);
             setName("");
             setQuantity(0);

@@ -7,7 +7,7 @@ import Recipe from './Recipe';
 @Entity()
 export default class Instruction {
     @PrimaryGeneratedColumn()
-    private id : Nullable<number>;
+    private id : number | undefined;
 
     @Column("int")
     private recipeId : Nullable<number>;
@@ -21,7 +21,7 @@ export default class Instruction {
     @ManyToOne(type => Recipe, recipe => recipe["instructions"], {onDelete:"CASCADE"})
     private recipe ?: Recipe;
 
-    constructor(id : Nullable<number>, recipeId : Nullable<number>, stepNumber : number, text : string) {
+    constructor(id :  number | undefined, recipeId : Nullable<number>, stepNumber : number, text : string) {
         this.id = id;
         this.recipeId = recipeId;
         this.stepNumber = stepNumber;
@@ -29,7 +29,7 @@ export default class Instruction {
     }
 
     static deserialize = (json : any) => {
-        const id = JsonDeserializationHelper.assertOptionalNullField(json, "id", FieldType.NUMBER);
+        const id = JsonDeserializationHelper.assertOptionalUndefinedField(json, "id", FieldType.NUMBER);
         const recipeId = JsonDeserializationHelper.assertOptionalNullField(json, "recipeId", FieldType.NUMBER);
         const stepNumber = JsonDeserializationHelper.assertField(json, "stepNumber", FieldType.NUMBER);
         const text = JsonDeserializationHelper.assertField(json, "text", FieldType.STRING);
@@ -37,7 +37,7 @@ export default class Instruction {
         return new Instruction(id, recipeId, stepNumber, text);
     }
 
-    static createInstruction = (id : Nullable<number>, recipeId : number, stepNumber : number, text : string) => {
+    static createInstruction = (id : number | undefined, recipeId : number, stepNumber : number, text : string) => {
         return new Instruction(id, recipeId, stepNumber, text);
     }
 
@@ -48,7 +48,7 @@ export default class Instruction {
     getStepNumber = () => this.stepNumber;
     getText = () => this.text;
 
-    setId = (id : Nullable<number>) => this.id = id;
+    setId = (id : number | undefined) => this.id = id;
     setRecipeId = (recipeId : Nullable<number>) => this.recipeId = recipeId;
     setStepNumber = (stepNumber : number) => this.stepNumber = stepNumber;
     setText = (text : string) => this.text = text;

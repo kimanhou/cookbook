@@ -22,18 +22,18 @@ export default class RecipeListController implements IController{
     post = (req: Request, res: Response) => {
         const recipe = Recipe.deserialize(req.body);
         this.connection.getRepository(Recipe).save(recipe)
-            .then(recipe => {
-                const ingredients = recipe.getIngredients();
-                ingredients.forEach(t => { t.setRecipeId(recipe.getId()) });
-                return this.connection.getRepository(Ingredient).save(ingredients)
-                    .then(() => recipe);
-            })
-            .then(recipe => {
-                const instructions = recipe.getInstructions();
-                instructions.forEach(t => { t.setRecipeId(recipe.getId()) });
-                return this.connection.getRepository(Instruction).save(instructions)
-                    .then(() => recipe);
-            })
+            // .then(recipe => {
+            //     const ingredients = recipe.getIngredients();
+            //     ingredients.forEach(t => { t.setRecipeId(recipe.getId()) });
+            //     return this.connection.getRepository(Ingredient).save(ingredients)
+            //         .then(() => recipe);
+            // })
+            // .then(recipe => {
+            //     const instructions = recipe.getInstructions();
+            //     instructions.forEach(t => { t.setRecipeId(recipe.getId()) });
+            //     return this.connection.getRepository(Instruction).save(instructions)
+            //         .then(() => recipe);
+            // })
             .then(recipe => res.send(recipe));
     }
 }

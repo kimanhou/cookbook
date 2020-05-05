@@ -7,7 +7,7 @@ import Recipe from './Recipe';
 @Entity()
 export default class Ingredient {
     @PrimaryGeneratedColumn()
-    private id : Nullable<number>;
+    private id : number | undefined;
 
     @Column("int")
     private recipeId : Nullable<number>;
@@ -24,7 +24,7 @@ export default class Ingredient {
     @ManyToOne(type => Recipe, recipe => recipe["ingredients"], {onDelete:"CASCADE"})
     private recipe ?: Recipe;
 
-    constructor(id : Nullable<number>, recipeId : Nullable<number>, name : string, quantity : number, unity : string) {
+    constructor(id : number | undefined, recipeId : Nullable<number>, name : string, quantity : number, unity : string) {
         this.id = id;
         this.recipeId = recipeId;
         this.name = name;
@@ -33,7 +33,7 @@ export default class Ingredient {
     }
 
     static deserialize = (json : any) => {
-        const id = JsonDeserializationHelper.assertOptionalNullField(json, "id", FieldType.NUMBER);
+        const id = JsonDeserializationHelper.assertOptionalUndefinedField(json, "id", FieldType.NUMBER);
         const recipeId = JsonDeserializationHelper.assertOptionalNullField(json, "recipeId", FieldType.NUMBER);
         const name = JsonDeserializationHelper.assertField(json, "name", FieldType.STRING);
         const quantity = JsonDeserializationHelper.assertField(json, "quantity", FieldType.NUMBER);
@@ -42,7 +42,7 @@ export default class Ingredient {
         return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
-    static createIngredient = (id : Nullable<number>, recipeId : number, name : string, quantity : number, unity : string) => {
+    static createIngredient = (id : number | undefined, recipeId : number, name : string, quantity : number, unity : string) => {
         return new Ingredient(id, recipeId, name, quantity, unity);
     }
 
@@ -54,7 +54,7 @@ export default class Ingredient {
     getQuantity = () => this.quantity;
     getUnity = () => this.unity;
 
-    setId = (id : Nullable<number>) => this.id = id;
+    setId = (id : number | undefined) => this.id = id;
     setRecipeId = (recipeId : Nullable<number>) => this.recipeId = recipeId;
     setName = (name : string) => this.name = name;
     setQuantity = (quantity : number) => this.quantity = quantity;

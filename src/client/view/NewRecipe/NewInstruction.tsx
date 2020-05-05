@@ -22,7 +22,7 @@ const NewInstruction : React.FC<INewInstructionProps> = props => {
 
     const addInstruction = () => {
         if(text !== "" && !isNaN(parseInt(stepNumber))) {
-            const instruction = new Instruction(null, null, parseInt(stepNumber), text);
+            const instruction = new Instruction(undefined, null, parseInt(stepNumber), text);
             props.setInstructions(instructions => [...instructions, instruction]);
             setText("");
         }

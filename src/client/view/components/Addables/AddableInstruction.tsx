@@ -10,7 +10,7 @@ const AddableInstruction : React.FC<IAddableInstructionProps> = props => {
 
     const onKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key == 'Enter' && !isNaN(parseInt(stepNumber))) {
-            const newInstruction = new Instruction(null, null, parseInt(stepNumber), text);
+            const newInstruction = new Instruction(undefined, null, parseInt(stepNumber), text);
             props.addInstruction(newInstruction);
             setIsEditable(isEditable => !isEditable);
             setStepNumberText("");
