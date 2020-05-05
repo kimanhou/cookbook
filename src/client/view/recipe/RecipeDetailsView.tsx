@@ -118,6 +118,8 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
         setInstructions(instructions => [... instructions, instruction]);
     }
 
+    const newStepNumber = props.recipe.getInstructions().length > 0 ? Math.max(...props.recipe.getInstructions().map(t => t.getStepNumber())) + 1 : 1;
+
     return (
         <div>
             <h2>{props.recipe.getRecipeName()}</h2>
@@ -140,7 +142,7 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
                     <button onClick={t => deleteIngredient(ingredient)}>X</button>
                 </div>)}
             <h3>Instructions</h3>
-            <AddableInstruction addInstruction={addInstruction}/>
+            <AddableInstruction addInstruction={addInstruction} newStepNumber={newStepNumber}/>
             {instructions.sort((a, b) => a.getStepNumber() - b.getStepNumber()).map(instruction => 
                 <div>
                     <EditableInstruction instruction={instruction} setInstruction={setInstructionText}/>

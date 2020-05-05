@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Instruction from '../../../../common/model/Instruction';
 
 interface IAddableInstructionProps {
     addInstruction : (instruction : Instruction) => void;
+    newStepNumber : number;
 }
 
 const AddableInstruction : React.FC<IAddableInstructionProps> = props => {
@@ -18,7 +19,10 @@ const AddableInstruction : React.FC<IAddableInstructionProps> = props => {
         }
     }
 
-    const [stepNumber, setStepNumberText] = useState<string>("");
+    const [stepNumber, setStepNumberText] = useState<string>(`${props.newStepNumber}`);
+    useEffect(() => {
+        setStepNumberText(`${props.newStepNumber}`);
+    }, [props.newStepNumber]);
     const onStepNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStepNumberText(event.target.value);
     }
