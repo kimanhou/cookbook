@@ -92,4 +92,6 @@ export default class Recipe{
         const coef = newNumberOfServings / this.numberOfServings;
         this.ingredients.forEach(t => t.setQuantity(coef * t.getQuantity()));
     }
+
+    getInstructionsStepNumbers = () => this.instructions.map(t => t.getStepNumber());
 }

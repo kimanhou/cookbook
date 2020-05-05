@@ -108,14 +108,20 @@ const RecipesDetailsView : React.FC<IRecipeDetailsViewProps> = props => {
     }
 
     const addInstruction = (instruction : Instruction) => {
-        props.recipe.addInstruction(instruction);
-        RecipeController.add(props.recipe)
-            .then(promisedRecipe => {
-                const oldInstruction = props.recipe.getInstructions()[props.recipe.getInstructions().length - 1];
-                const newInstruction= promisedRecipe.getInstructions()[promisedRecipe.getInstructions().length - 1];
-                oldInstruction.sync(newInstruction);
-            });
-        setInstructions(instructions => [... instructions, instruction]);
+        const stepNumbers = props.recipe.getInstructionsStepNumbers();
+        if (stepNumbers.includes(instruction.getStepNumber())) {
+            window.alert("This step number already exists.");
+        }
+        else {
+            props.recipe.addInstruction(instruction);
+            RecipeController.add(props.recipe)
+                .then(promisedRecipe => {
+                    const oldInstruction = props.recipe.getInstructions()[props.recipe.getInstructions().length - 1];
+                    const newInstruction = promisedRecipe.getInstructions()[promisedRecipe.getInstructions().length - 1];
+                    oldInstruction.sync(newInstruction);
+                });
+            setInstructions(instructions => [... instructions, instruction]);
+        }
     }
 
     const newStepNumber = props.recipe.getInstructions().length > 0 ? Math.max(...props.recipe.getInstructions().map(t => t.getStepNumber())) + 1 : 1;
